@@ -1,16 +1,22 @@
+import java.util.*;
+import java.time.LocalDate;
+
+
+
 public class SeatReservation {
 
-	private String flightDesignator
-	private java.time.LocalDate flightDate
-	private String firstName
-	private String lastName
+	private String flightDesignator;
+	private java.time.LocalDate flightDate;
+	private String firstName;
+	private String lastName;
 
 
-
-    public void setFlightDesignator(String flightDesignator) {
-      if (flightDesignator == null)
-         throw new IllegalArgumentException("flight designator cannot be null");
-      this.flightDesignator = flightDesignator;
+	public void setFlightDesignator(String fd) {
+        if (fd.length() < 4 || fd.length() > 6) {
+            throw new IllegalArgumentException();
+        }
+        
+        this.flightDesignator = fd;
     }
 
     public LocalDate getFlightDate() {
