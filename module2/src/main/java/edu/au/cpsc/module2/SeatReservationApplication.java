@@ -14,41 +14,52 @@ import javafx.application.Platform;
 public class SeatReservationApplication extends Application {
 
     private SeatReservation seatReservation;
+    private BorderPane root;
+    private TextField flightDesignatorField;
+    private TextField firstNameField;
+    private TextField lastNameField;
+    private TextField bagsField;
+    private DatePicker flightDatePicker;
+    private TextField numPassengersField;
+    private CheckBox infantCheckBox;
+
     @Override
     public void start(Stage stage) {
-
         seatReservation = new SeatReservation();
         seatReservation.setFlightDesignator("12345");
         seatReservation.setFirstName("First name");
         seatReservation.setLastName("Last name");
 
-        Label flightDesignatorLabel = new Label("Flight Designator:");
-        TextField flightDesignatorField = new TextField();
+        root = new BorderPane();
+        initializeComponents();
+        setUpEventHandlers();
+        setUpLayout();
+
+        Scene scene = new Scene(root, 450, 300);
+        stage.setTitle("Seat Reservation Project");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void initializeComponents() {
+        flightDesignatorField = new TextField();
+        firstNameField = new TextField();
+        lastNameField = new TextField();
+        bagsField = new TextField();
+        flightDatePicker = new DatePicker();
+        numPassengersField = new TextField("1");
+        infantCheckBox = new CheckBox();
+
         flightDesignatorField.setText(seatReservation.getFlightDesignator());
-
-        Label firstNameLabel = new Label("First Name:");
-        TextField firstNameField = new TextField();
         firstNameField.setText(seatReservation.getFirstName());
-
-        Label lastNameLabel = new Label("Last Name:");
-        TextField lastNameField = new TextField();
         lastNameField.setText(seatReservation.getLastName());
-
-        Label bagsLabel = new Label("Bags:");
-        TextField bagsField = new TextField();
         bagsField.setText(String.valueOf(seatReservation.getNumberOfBags()));
-
-        Label flightDateLabel = new Label("Flight Date:");
-        DatePicker flightDatePicker = new DatePicker();
         flightDatePicker.setValue(seatReservation.getFlightDate());
-
-        Label numPassengersLabel = new Label("Number of Passengers:");
-        TextField numPassengersField = new TextField("1");
         numPassengersField.setEditable(false);
-
-        CheckBox infantCheckBox = new CheckBox();
-        Label flyingWithInfantLabel = new Label("Flying with Infant:");
         infantCheckBox.setSelected(seatReservation.isFlyingWithInfant());
+    }
+
+    private void setUpEventHandlers() {
         infantCheckBox.setOnAction(event -> {
             if (infantCheckBox.isSelected()) {
                 numPassengersField.setText("2");
@@ -56,68 +67,54 @@ public class SeatReservationApplication extends Application {
                 numPassengersField.setText("1");
             }
         });
+    }
 
-        Button saveButton = new Button("Save");
-        saveButton.setOnAction(event -> {
-            try {
-                seatReservation.setFlightDesignator(flightDesignatorField.getText());
-                seatReservation.setFlightDate(flightDatePicker.getValue());
-                seatReservation.setFirstName(firstNameField.getText());
-                seatReservation.setLastName(lastNameField.getText());
-                seatReservation.setNumberOfBags(Integer.parseInt(bagsField.getText()));
-
-                if (infantCheckBox.isSelected()) {
-                    seatReservation.makeFlyingWithInfant();
-                } else {
-                    seatReservation.makeNotFlyingWithInfant();
-                }
-
-                System.out.println(seatReservation);
-                Platform.exit();
-
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        });
-
-        Button cancelButton = new Button("Cancel");
-        cancelButton.setOnAction(event -> {
-            System.out.println("Cancel clicked");
-            Platform.exit();
-        });
-
+    private void setUpLayout() {
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
         gridPane.setHgap(10);
         gridPane.setVgap(5);
 
-        gridPane.add(flightDesignatorLabel, 0, 0);
-        gridPane.add(flightDesignatorField, 1, 0);
-        gridPane.add(flightDateLabel, 0, 1);
-        gridPane.add(flightDatePicker, 1, 1);
-        gridPane.add(firstNameLabel, 0, 2);
-        gridPane.add(firstNameField, 1, 2);
-        gridPane.add(lastNameLabel, 0, 3);
-        gridPane.add(lastNameField, 1, 3);
-        gridPane.add(bagsLabel, 0, 4);
-        gridPane.add(bagsField, 1, 4);
-        gridPane.add(flyingWithInfantLabel, 0, 5);
-        gridPane.add(infantCheckBox, 1, 5);
-        gridPane.add(numPassengersLabel, 0, 6);
-        gridPane.add(numPassengersField, 1, 6);
+        gridPane.addRow(0, new Label("Flight Designator:"), flightDesignatorField);
+        gridPane.addRow(1, new Label("Flight Date:"), flightDatePicker);
+        gridPane.addRow(2, new Label("First Name:"), firstNameField);
+        gridPane.addRow(3, new Label("Last Name:"), lastNameField);
+        gridPane.addRow(4, new Label("Bags:"), bagsField);
+        gridPane.addRow(5, new Label("Flying with Infant:"), infantCheckBox);
+        gridPane.addRow(6, new Label("Number of Passengers:"), numPassengersField);
 
         HBox buttonBox = new HBox(10);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setAlignment(Pos.TOP_RIGHT);
+        Button saveButton = new Button("Save");
+        Button cancelButton = new Button("Cancel");
+        saveButton.setOnAction(event -> saveSeatReservation());
+        cancelButton.setOnAction(event -> Platform.exit());
         buttonBox.getChildren().addAll(cancelButton, saveButton);
 
-        BorderPane root = new BorderPane();
         root.setCenter(gridPane);
         root.setBottom(buttonBox);
+    }
 
-        Scene scene = new Scene(root, 450, 300);
-        stage.setTitle("Seat Reservation Project");
-        stage.setScene(scene);
-        stage.show();
+    private void saveSeatReservation() {
+        try {
+            seatReservation.setFlightDesignator(flightDesignatorField.getText());
+            seatReservation.setFlightDate(flightDatePicker.getValue());
+            seatReservation.setFirstName(firstNameField.getText());
+            seatReservation.setLastName(lastNameField.getText());
+            seatReservation.setNumberOfBags(Integer.parseInt(bagsField.getText()));
+
+            if (infantCheckBox.isSelected()) {
+                seatReservation.makeFlyingWithInfant();
+            } else {
+                seatReservation.makeNotFlyingWithInfant();
+            }
+
+            System.out.println(seatReservation);
+            Platform.exit();
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
