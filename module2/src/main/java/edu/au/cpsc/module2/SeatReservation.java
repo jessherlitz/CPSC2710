@@ -11,7 +11,6 @@ public class SeatReservation {
     private String lastName;
     private int numberOfBags;
     private boolean flyingWithInfant;
-
     public void setFlightDesignator(String fd) {
         if (fd == null || fd.length() < 4 || fd.length() > 6) {
             throw new IllegalArgumentException();
@@ -57,15 +56,15 @@ public class SeatReservation {
         this.numberOfBags = num;
     }
 
-    private boolean isFlyingWithInfant() {
+    public boolean isFlyingWithInfant() {
         return flyingWithInfant;
     }
 
-    private void makeFlyingWithInfant() {
+    public void makeFlyingWithInfant() {
         this.flyingWithInfant = true;
     }
 
-    private void makeNotFlyingWithInfant() {
+    public void makeNotFlyingWithInfant() {
         this.flyingWithInfant = false;
     }
 
