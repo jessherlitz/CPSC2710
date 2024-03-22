@@ -1,6 +1,5 @@
 package edu.au.cpsc.airportapplication;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -46,7 +45,7 @@ public class AirportApplicationController  {
         try {
             airportList = Airport.readAll();
         } catch (IOException e) {
-            System.out.println("There was an error reading the file. " + e.getStackTrace());
+            System.out.println("There was an error while reading the file. " + e.getStackTrace());
         }
     }
 
@@ -67,7 +66,9 @@ public class AirportApplicationController  {
             if (findAirportByByLocalCode(localCode.trim())) return;
         }
 
-        Alert a = new Alert(Alert.AlertType.INFORMATION, "No airport was found, please enter a valid ID, IATA or local code.");
+        Alert a = new Alert(Alert.AlertType.INFORMATION, "Please enter a valid ID, IATA or local code.");
+        a.setHeaderText("No airport was found.");
+        a.setTitle("Warning");
         a.showAndWait();
     }
 
