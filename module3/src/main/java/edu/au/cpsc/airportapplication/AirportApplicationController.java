@@ -6,7 +6,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 public class AirportApplicationController  {
 
     @FXML
@@ -40,30 +43,43 @@ public class AirportApplicationController  {
     private TextField municipalityTextField;
 
     private List<Airport> airportList;
+    Map<String, Airport> airportCodeToAirportMap = new HashMap<>();
 
     public AirportApplicationController() throws IOException {
         try {
             airportList = Airport.readAll();
+            createMap();
         } catch (IOException e) {
             System.out.println("There was an error while reading the file. " + e.getStackTrace());
         }
     }
 
+    private String sanitizeInput(String in) {
+        return in.toLowerCase().trim();
+    }
+
+    private void createMap() {
+        for (Airport airport : airportList) {
+            airportCodeToAirportMap.put(sanitizeInput(airport.getIataCode()), airport);
+            airportCodeToAirportMap.put(sanitizeInput(airport.getLocalCode()), airport);
+            airportCodeToAirportMap.put(sanitizeInput(airport.getIdent()), airport);
+        }
+    }
     private void searchAirport() {
         String ident = identTextField.getText();
         String iataCode = iataCodeTextField.getText();
         String localCode = localCodeTextField.getText();
 
         if (!ident.isEmpty()) {
-            if (findAirportByID(ident.trim())) return;
+            if (fetchAirport(ident.trim())) return;
         }
 
         if (!iataCode.isEmpty()) {
-           if (findAirportByIataCode(iataCode.trim())) return;
+            if (fetchAirport(iataCode.trim())) return;
         }
 
         if (!localCode.isEmpty()) {
-            if (findAirportByByLocalCode(localCode.trim())) return;
+            if (fetchAirport(localCode.trim())) return;
         }
 
         Alert a = new Alert(Alert.AlertType.INFORMATION, "Please enter a valid ID, IATA or local code.");
@@ -72,37 +88,13 @@ public class AirportApplicationController  {
         a.showAndWait();
     }
 
-    private boolean findAirportByID(String ident) {
-        for (Airport airport : airportList) {
-            if (airport.getIdent().toLowerCase().equals(ident.toLowerCase())) {
-                Airport foundAirport = airport;
-                updateFields(foundAirport);
-                return true;
-            }
+    private boolean fetchAirport(String key) {
+        if (!airportCodeToAirportMap.containsKey(sanitizeInput(key))) {
+            return false;
         }
-        return false;
-    }
 
-    private boolean findAirportByIataCode(String iataCode) {
-        for (Airport airport : airportList) {
-            if (airport.getIataCode().toLowerCase().equals(iataCode.toLowerCase())) {
-                Airport foundAirport = airport;
-                updateFields(foundAirport);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean findAirportByByLocalCode(String localCode) {
-        for (Airport airport : airportList) {
-            if (airport.getLocalCode().toLowerCase().equals(localCode.toLowerCase())) {
-                Airport foundAirport = airport;
-                updateFields(foundAirport);
-                return true;
-            }
-        }
-        return false;
+        updateFields(airportCodeToAirportMap.get(sanitizeInput(key)));
+        return true;
     }
 
     private void updateFields(Airport airport) {
