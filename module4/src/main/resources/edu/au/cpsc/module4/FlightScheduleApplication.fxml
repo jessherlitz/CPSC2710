@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.au.cpsc.module4.controller.FlightScheduleController">
+    <center>
+        <TableView fx:id="tableView" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="flightDesignatorColumn" minWidth="150.0" prefWidth="150.0" text="Flight Designator" />
+                <TableColumn fx:id="departureAirportIDColumn" minWidth="150.0" prefWidth="150.0" text="Departure Airport ID" />
+                <TableColumn fx:id="arrivalAirportIDColumn" minWidth="150.0" prefWidth="150.0" text="Arrival Airport ID" />
+                <TableColumn fx:id="daysOfWeekColumn" minWidth="150.0" prefWidth="150.0" text="Days of Week" />
+            </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox minHeight="130.0" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <GridPane hgap="5.0" minHeight="100.0" minWidth="500.0" vgap="10.0" HBox.hgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="150.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Flight Designator:" GridPane.halignment="CENTER">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                        </Label>
+                        <TextField fx:id="flightDesignator" onKeyTyped="#flightDesignatorOnChange" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                        <Label text="Departure Aiport ID:" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                            <padding>
+                                <Insets left="5.0" />
+                            </padding>
+                        </Label>
+                        <TextField fx:id="arrivalAirportID" onKeyTyped="#arrivalAirportIDOnChange" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                        <Label text="Arrival Airport ID:" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                            <GridPane.margin>
+                                <Insets left="5.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <TextField fx:id="daysOfWeek" onKeyTyped="#daysOfWeekOnChange" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                        <Label text="Days of Week:" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                            <GridPane.margin>
+                                <Insets left="5.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <HBox minWidth="500.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
+                            <children>
+                                <ToggleButton fx:id="toggleSunday" mnemonicParsing="false" onMouseClicked="#toggleOnClick" text="Sunday">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></ToggleButton>
+                                <ToggleButton fx:id="toggleMonday" mnemonicParsing="false" onMouseClicked="#toggleOnClick" text="Monday">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></ToggleButton>
+                                <ToggleButton fx:id="toggleTuesday" mnemonicParsing="false" onMouseClicked="#toggleOnClick" text="Tuesday">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></ToggleButton>
+                                <ToggleButton fx:id="toggleWednesday" mnemonicParsing="false" onMouseClicked="#toggleOnClick" text="Wednesday">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></ToggleButton>
+                                <ToggleButton fx:id="toggleThursday" mnemonicParsing="false" onMouseClicked="#toggleOnClick" text="Thursday">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></ToggleButton>
+                                <ToggleButton fx:id="toggleFriday" mnemonicParsing="false" onMouseClicked="#toggleOnClick" text="Friday">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></ToggleButton>
+                                <ToggleButton fx:id="toggleSaturday" mnemonicParsing="false" onMouseClicked="#toggleOnClick" text="Saturday">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></ToggleButton>
+                            </children>
+                        </HBox>
+                    </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+                </GridPane>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="4.0">
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                    <children>
+                        <Button fx:id="editButton" mnemonicParsing="false" onMouseClicked="#buttonOnClick" text="Edit" />
+                        <Button fx:id="newButton" mnemonicParsing="false" onMouseClicked="#buttonOnClick" text="New" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onMouseClicked="#buttonOnClick" text="Delete" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>
