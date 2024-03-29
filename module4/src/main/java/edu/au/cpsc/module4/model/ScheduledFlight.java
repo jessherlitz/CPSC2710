@@ -1,10 +1,10 @@
 package edu.au.cpsc.module4.model;
 
+import java.io.Serializable;
 import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.Set;
 
-public class ScheduledFlight {
+public class ScheduledFlight implements Serializable {
 
     private String flightDesignator;
     private String departureAirportIdent;
@@ -13,13 +13,8 @@ public class ScheduledFlight {
     private LocalTime arrivalTime;
     private Set<String> daysOfWeek;
 
-    public ScheduledFlight(String flightDesignator, String departureAirportIdent, String arrivalAirportIdent) {
-        this.flightDesignator = flightDesignator;
-        this.departureAirportIdent = departureAirportIdent;
-       // this.departureTime = departureTime;
-        this.arrivalAirportIdent = arrivalAirportIdent;
-       // this.arrivalTime = arrivalTime;
-       // this.daysOfWeek = daysOfWeek;
+    public ScheduledFlight() {
+
     }
 
     public String getFlightDesignator() {
@@ -77,12 +72,17 @@ public class ScheduledFlight {
         this.arrivalTime = arrivalTime;
     }
 
-    public String getDaysOfWeek() {
+    public Set<String> getDaysOfWeek() {
+        return daysOfWeek;
+    }
+
+    public String getDaysOfWeekFormatted() {
+
         if (daysOfWeek == null) {
             return "";
         }
 
-        return daysOfWeek.toString();
+        return daysOfWeek.toString().substring(1, daysOfWeek.toString().length() - 1);
     }
 
     public void setDaysOfWeek(Set<String> daysOfWeek) {
@@ -90,5 +90,25 @@ public class ScheduledFlight {
             throw new IllegalArgumentException("Days of week can't be null.");
         }
         this.daysOfWeek = daysOfWeek;
+    }
+
+    public void changeDaysOfWeek(String dayOfWeek) {
+        if (daysOfWeek.contains(dayOfWeek)) {
+            daysOfWeek.remove(dayOfWeek);
+        } else {
+            daysOfWeek.add(dayOfWeek);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ScheduledFlight{" +
+                "flightDesignator='" + flightDesignator + '\'' +
+                ", departureAirportIdent='" + departureAirportIdent + '\'' +
+                ", departureTime=" + departureTime +
+                ", arrivalAirportIdent='" + arrivalAirportIdent + '\'' +
+                ", arrivalTime=" + arrivalTime +
+                ", daysOfWeek=" + daysOfWeek +
+                '}';
     }
 }
