@@ -1,0 +1,70 @@
+@font-face {
+    font-family: "Teko";
+    src: url(../font/Teko-Regular.ttf);
+}
+
+#airports-btn {
+    -fx-background-color: black;
+    -fx-font-family: "Teko";
+    -fx-text-fill: red;
+    -fx-font-size: 20px;
+}
+
+#airports-btn:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+    -fx-text-fill: white;
+    -fx-background-image: url(../images/airport.png);
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
+#seat-reservation-btn {
+    -fx-font-family: "Teko";
+    -fx-text-fill: purple;
+    -fx-font-size: 20px;
+}
+
+#seat-reservation-btn:hover {
+    -fx-background-color: rgba(128, 0, 128, 0.5);
+    -fx-border-color: purple;
+    -fx-text-fill: white;
+    -fx-border-width: 2px;
+    -fx-background-image: url(../images/seat.png);
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
+#flight-schedule-btn {
+    -fx-font-family: "Teko";
+    -fx-text-fill: green;
+    -fx-font-size: 20px;
+}
+
+#flight-schedule-btn:hover {
+    -fx-background-color: rgba(0, 128, 0, 0.5);
+    -fx-border-color: green;
+    -fx-text-fill: white;
+    -fx-border-width: 2px;
+    -fx-background-image: url(../images/schedule.png);
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
+#aircraft-btn {
+    -fx-background-color: black;
+    -fx-font-family: "Teko";
+    -fx-text-fill: blue;
+    -fx-font-size: 20px;
+}
+
+#aircraft-btn:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-border-color: blue;
+    -fx-border-width: 2px;
+    -fx-text-fill: white;
+    -fx-background-image: url(../images/airplane.png);
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}

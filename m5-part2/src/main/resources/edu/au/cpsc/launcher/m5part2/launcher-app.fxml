@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane hgap="5.0" stylesheets="@style/main.css" vgap="5.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.au.cpsc.launcher.m5part2.LauncherController">
+<Button id="airports-btn" maxWidth="1.7976931348623157E308" minHeight="150.0" minWidth="150.0" text="Airports" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+<Button id="seat-reservation-btn" maxWidth="1.7976931348623157E308" minHeight="150.0" minWidth="150.0" text="Seat Reservations" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+<Button id="flight-schedule-btn" maxWidth="1.7976931348623157E308" minHeight="150.0" minWidth="150.0" text="Flight Schedule" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+<Button id="aircraft-btn" maxWidth="1.7976931348623157E308" minHeight="150.0" minWidth="150.0" text="Aircraft" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <padding>
+      <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+   </padding>
+
+</GridPane>
