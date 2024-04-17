@@ -1,15 +1,8 @@
 package au.edu.cpsc.module7;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
-
-public class Note {
+public class Note implements Serializable {
     private String title;
     private String content;
 
@@ -18,38 +11,26 @@ public class Note {
         this.content = content;
     }
 
-    public static void saveNotes(List<Note> notes, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (Note note : notes) {
-                writer.write(note.getTitle() + "::" + note.getContent() + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String getContent() {
+    public String getContent() {
         return content;
     }
 
-    private String getTitle() {
-        return title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public static List<Note> loadNotes(String filePath) {
-        List<Note> notes = new ArrayList<>();
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(filePath));
-            for (String line : lines) {
-                String[] parts = line.split("::", 2);
-                if (parts.length >= 2) {
-                    Note note = new Note(parts[0], parts[1]);
-                    notes.add(note);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return notes;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+    @Override
+    public String toString() {
+        return "Note{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

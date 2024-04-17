@@ -10,11 +10,12 @@ public class NotesApp extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(NotesApp.class.getResource("main.fxml"));
 
-        Scene scene = new Scene(fxmlLoader.load(), 600, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 700, 600);
 
-        stage.setMinWidth(600);
+        stage.setResizable(false);
+        stage.setMinWidth(700);
         stage.setMinHeight(600);
-        stage.setMaxWidth(600);
+        stage.setMaxWidth(700);
         stage.setMinHeight(600);
         stage.setTitle("Notes App");
         stage.setScene(scene);

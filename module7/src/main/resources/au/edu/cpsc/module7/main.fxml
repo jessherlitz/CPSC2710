@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="au.edu.cpsc.module7.MainController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleDeleteKey" prefHeight="600.0" prefWidth="600.0" stylesheets="@../../../../style/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="au.edu.cpsc.module7.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                <MenuItem accelerator="Ctrl+N" onAction="#newNote" text="New Note" />
-                <MenuItem accelerator="Delete" onAction="#deleteNote" text="Delete Note" />
+                <MenuItem accelerator="Ctrl+S" onAction="#saveButton" text="Save Note" />
+                <MenuItem accelerator="Delete" onAction="#deleteButton" text="Delete Note" />
                 <MenuItem accelerator="Ctrl+Q" onAction="#exitApp" text="Exit" />
             </items>
           </Menu>
@@ -31,28 +22,29 @@
           </Menu>
         </menus>
          <BorderPane.margin>
-            <Insets />
+            <Insets bottom="7.0" />
          </BorderPane.margin>
       </MenuBar>
    </top>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField promptText="Insert note title..">
+            <TextField fx:id="noteTitle" promptText="Insert note title..">
                <VBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </VBox.margin>
             </TextField>
-            <TextArea minHeight="-Infinity" prefHeight="500.0" prefWidth="200.0" promptText="Enter your note here...">
+            <TextArea fx:id="noteContent" minHeight="-Infinity" prefHeight="500.0" prefWidth="200.0" promptText="Enter your note here...">
                <VBox.margin>
                   <Insets left="2.0" right="2.0" />
                </VBox.margin>
             </TextArea>
+            <HBox prefHeight="100.0" prefWidth="200.0" />
          </children>
       </VBox>
    </center>
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox minWidth="-Infinity" prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="previous notes:">
                <padding>
@@ -62,20 +54,23 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </VBox.margin>
             </Label>
-            <ListView minHeight="-Infinity" prefHeight="500.0" prefWidth="200.0" />
+            <ListView fx:id="notesList" minHeight="-Infinity" prefHeight="500.0" prefWidth="200.0" />
          </children>
       </VBox>
    </left>
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="681.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" text="Save" />
-            <Button layoutX="540.0" layoutY="17.0" mnemonicParsing="false" text="Edit" />
-            <Button layoutX="460.0" layoutY="17.0" mnemonicParsing="false" text="Delete" />
+          <Button fx:id="saveButtonID" mnemonicParsing="false" onAction="#saveButton" text="Save" />
+            <Button layoutX="540.0" layoutY="17.0" mnemonicParsing="false" onAction="#editButton" text="Edit" />
+            <Button layoutX="460.0" layoutY="17.0" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
         </buttons>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
+         <BorderPane.margin>
+            <Insets top="5.0" />
+         </BorderPane.margin>
       </ButtonBar>
    </bottom>
    <padding>
