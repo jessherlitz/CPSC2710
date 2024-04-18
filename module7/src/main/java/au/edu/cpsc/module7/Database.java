@@ -13,6 +13,18 @@ public class Database implements Serializable {
     }
 
     public List<Note> getNotes() {
+        List<Note> nonArchivedNotes = new ArrayList<>();
+
+        for (Note n : notes) {
+            if (!n.isArchived()) {
+                nonArchivedNotes.add(n);
+            }
+        }
+
+        return nonArchivedNotes;
+    }
+
+    public List<Note> getAllNotes() {
         return notes;
     }
 

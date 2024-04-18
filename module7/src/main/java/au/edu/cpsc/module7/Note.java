@@ -5,10 +5,12 @@ import java.io.Serializable;
 public class Note implements Serializable {
     private String title;
     private String content;
+    private boolean isArchived;
 
     public Note(String title, String content) {
         this.title = title;
         this.content = content;
+        this.isArchived = false;
     }
 
     public String getContent() {
@@ -26,11 +28,25 @@ public class Note implements Serializable {
     public String getTitle() {
         return title;
     }
+
+    public void toggleArchived() {
+        if (this.isArchived == false) {
+            this.isArchived = true;
+        } else {
+            this.isArchived = false;
+        }
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", isArchived=" + isArchived +
                 '}';
     }
 }
