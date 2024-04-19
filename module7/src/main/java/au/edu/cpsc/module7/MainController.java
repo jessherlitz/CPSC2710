@@ -6,11 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -46,7 +42,6 @@ public class MainController {
 
     @FXML
     private void initialize() {
-
         rootPane.setFocusTraversable(true);
         notesList.setItems(FXCollections.observableList(database.getNotes()));
         notesList.getSelectionModel().selectedItemProperty().addListener(event -> noteSelectedChanged());
@@ -67,11 +62,8 @@ public class MainController {
 
         fontSizeSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
             String fontStyle = newValue.intValue() + "px;";
-
             map.put("fontSize", fontStyle);
-
             addStyles();
-
         });
     }
 
@@ -135,10 +127,7 @@ public class MainController {
             noteTitle.clear();
             noteContent.clear();
         } else {
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Notes cannot be empty.");
-            a.setHeaderText("Please insert text to your note.");
-            a.setTitle("Warning");
-            a.showAndWait();
+            showAlert("Notes cannot be empty.", "Please insert text to your note.", "Warning");
         }
 
         notesList.setItems(FXCollections.observableList(database.getNotes()));
@@ -150,10 +139,7 @@ public class MainController {
         Note selectedNote = notesList.getSelectionModel().getSelectedItem();
 
         if (selectedNote == null) {
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Cannot delete an empty note.");
-            a.setHeaderText("Please select a note to be deleted.");
-            a.setTitle("Warning");
-            a.showAndWait();
+            showAlert("Cannot delete an empty note.", "Please select a note to be deleted.", "Warning");
         }
 
         database.removeNote(selectedNote);
@@ -174,10 +160,7 @@ public class MainController {
 
             Db.saveDatabase();
         } else {
-            Alert a = new Alert(Alert.AlertType.INFORMATION, "Notes cannot be empty.");
-            a.setHeaderText("Please insert text to your note.");
-            a.setTitle("Warning");
-            a.showAndWait();
+            showAlert("Notes cannot be empty.","Please insert text to your note.", "Warning");
         }
 
         notesList.setItems(FXCollections.observableList(database.getNotes()));
@@ -199,20 +182,14 @@ public class MainController {
             System.exit(0);
         } else {
             if (selectedNote.getTitle().isEmpty() || selectedNote.getContent().isEmpty()) {
-                Alert a = new Alert(Alert.AlertType.INFORMATION, "Notes cannot be empty.");
-                a.setHeaderText("Please insert text to your note.");
-                a.setTitle("Warning");
-                a.showAndWait();
+                showAlert("Notes cannot be empty.","Please insert text to your note.", "Warning");
             }
         }
     }
 
     @FXML
     private void onAboutClick() {
-        Alert a = new Alert(Alert.AlertType.INFORMATION, "Mini notes app for software class.");
-        a.setHeaderText("Notes App.");
-        a.setTitle("About");
-        a.showAndWait();
+        showAlert("Mini notes app for software class.", "Notes App.", "About");
     }
 
     @FXML
@@ -238,6 +215,13 @@ public class MainController {
             notesList.setItems(FXCollections.observableList(database.getNotes()));
             archiveButton.setText("Show Archived");
         }
+    }
+    
+    private void showAlert(String info, String headerText, String title) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION, info);
+        a.setHeaderText(headerText);
+        a.setTitle(title);
+        a.showAndWait();
     }
 
     static class NoteTitleCell extends ListCell<Note> {
