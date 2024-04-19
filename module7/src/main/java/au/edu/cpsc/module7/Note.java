@@ -6,10 +6,12 @@ public class Note implements Serializable {
     private String title;
     private String content;
     private boolean isArchived;
+    private String noteStyle;
 
-    public Note(String title, String content) {
+    public Note(String title, String content, String noteStyle) {
         this.title = title;
         this.content = content;
+        this.noteStyle = noteStyle;
         this.isArchived = false;
     }
 
@@ -27,6 +29,14 @@ public class Note implements Serializable {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setNoteStyle(String styleIn) {
+        this.noteStyle = styleIn;
+    }
+
+    public String getNoteStyle() {
+        return noteStyle;
     }
 
     public void toggleArchived() {
@@ -47,6 +57,7 @@ public class Note implements Serializable {
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", isArchived=" + isArchived +
+                ", noteStyle='" + noteStyle + '\'' +
                 '}';
     }
 }

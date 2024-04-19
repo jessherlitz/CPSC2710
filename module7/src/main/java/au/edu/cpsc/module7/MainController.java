@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class MainController {
 
@@ -39,9 +40,9 @@ public class MainController {
     @FXML
     private Slider fontSizeSlider;
 
-    private NoteWindowController noteWindowController;
+    private Database database = Db.getDatabase();
 
-    Database database = Db.getDatabase();
+    private HashMap<String, String> map = new HashMap<String, String>();
 
     @FXML
     private void initialize() {
@@ -55,17 +56,37 @@ public class MainController {
             if (event.getClickCount() == 2) {
                 Note selectedNote = notesList.getSelectionModel().getSelectedItem();
                 try {
-                    noteWindow(selectedNote.getTitle(), selectedNote.getContent());
+                    NoteWindowController.show(selectedNote.getTitle(), selectedNote.getContent());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }});
 
-// it overwrites the color;
-//        fontSizeSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
-//            System.out.println("event");
-//            noteContent.setStyle("-fx-font-size: " + newValue.intValue() + "px;");
-//        });
+        noteContent.setWrapText(true);
+        fontSizeSlider.setMax(50);
+
+        fontSizeSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
+            String fontStyle = newValue.intValue() + "px;";
+
+            map.put("fontSize", fontStyle);
+
+            addStyles();
+
+        });
+    }
+
+    private void addStyles() {
+        StringBuilder styles = new StringBuilder();
+
+        if (map.get("fontSize") != null) {
+            styles.append("-fx-font-size: " + map.get("fontSize"));
+        }
+
+        if (map.get("fontColor") != null) {
+           styles.append("-fx-text-fill: " + map.get("fontColor"));
+        }
+
+        noteContent.setStyle(styles.toString());
     }
 
 
@@ -76,9 +97,11 @@ public class MainController {
         String hexColor = String.format("#%02X%02X%02X",
         (int) (selectedColor.getRed() * 255),
         (int) (selectedColor.getGreen() * 255),
-        (int) (selectedColor.getBlue() * 255));
+        (int) (selectedColor.getBlue() * 255)) + ";";
 
-        noteContent.setStyle("-fx-text-fill: " + hexColor + ";");
+        map.put("fontColor", hexColor);
+
+        addStyles();
     }
 
     private void noteSelectedChanged() {
@@ -88,12 +111,14 @@ public class MainController {
             noteTitle.clear();
             noteContent.clear();
             archiveCheck.setSelected(false);
+            noteContent.setStyle("");
             return;
         }
 
         noteTitle.setText(selectedNote.getTitle());
         noteContent.setText(selectedNote.getContent());
         archiveCheck.setSelected(selectedNote.isArchived());
+        noteContent.setStyle(selectedNote.getNoteStyle());
     }
 
 
@@ -103,7 +128,8 @@ public class MainController {
         String content = noteContent.getText();
 
         if (!title.isEmpty() && !content.isEmpty()) {
-            Note note = new Note(title, content);
+            Note note = new Note(title, content, noteContent.getStyle());
+
             database.addNote(note);
             Db.saveDatabase();
             noteTitle.clear();
@@ -142,6 +168,7 @@ public class MainController {
         if (!noteContent.getText().isEmpty() && !noteTitle.getText().isEmpty()) {
             selectedNote.setContent(noteContent.getText());
             selectedNote.setTitle(noteTitle.getText());
+            selectedNote.setNoteStyle(noteContent.getStyle());
 
             database.updateNote(selectedNote);
 
@@ -199,6 +226,7 @@ public class MainController {
 
         selectedNote.toggleArchived();
         notesList.setItems(FXCollections.observableList(database.getNotes()));
+        toggleArchived();
     }
 
     @FXML
@@ -212,20 +240,6 @@ public class MainController {
         }
     }
 
-    @FXML
-    protected void noteWindow(String title, String content) throws IOException {
-        noteWindowController = new NoteWindowController();
-
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(NotesApp.class.getResource("note-window.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle(title);
-        noteWindowController.initialize();
-        noteWindowController.setContent(content);
-        stage.setScene(scene);
-        stage.show();
-    }
-
     static class NoteTitleCell extends ListCell<Note> {
         @Override
         protected void updateItem(Note item, boolean empty) {
@@ -236,7 +250,11 @@ public class MainController {
                 setText(null);
                 setGraphic(null);
             } else {
-                setText(item.getTitle() );
+                if (item.getTitle().length() >= 25) {
+                    setText(item.getTitle().substring(0, 25) + "...");
+                } else {
+                    setText(item.getTitle());
+                }
             }
         }
     }
