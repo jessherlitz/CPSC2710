@@ -1,7 +1,6 @@
 package au.edu.cpsc.module7;
 
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
@@ -59,7 +58,6 @@ public class MainController {
 
         noteContent.setWrapText(true);
         fontSizeSlider.setMax(50);
-
         fontSizeSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
             String fontStyle = newValue.intValue() + "px;";
             map.put("fontSize", fontStyle);
@@ -83,7 +81,7 @@ public class MainController {
 
 
     @FXML
-    private void colorPickerAction(Event event) {
+    private void colorPickerAction() {
         Color selectedColor = colorPicker.getValue();
 
         String hexColor = String.format("#%02X%02X%02X",
@@ -157,7 +155,6 @@ public class MainController {
             selectedNote.setNoteStyle(noteContent.getStyle());
 
             database.updateNote(selectedNote);
-
             Db.saveDatabase();
         } else {
             showAlert("Notes cannot be empty.","Please insert text to your note.", "Warning");
@@ -181,9 +178,7 @@ public class MainController {
             Db.saveDatabase();
             System.exit(0);
         } else {
-            if (selectedNote.getTitle().isEmpty() || selectedNote.getContent().isEmpty()) {
-                showAlert("Notes cannot be empty.","Please insert text to your note.", "Warning");
-            }
+            System.exit(0);
         }
     }
 
@@ -194,7 +189,6 @@ public class MainController {
 
     @FXML
     private void archiveCheckBox() {
-
         Note selectedNote = notesList.getSelectionModel().getSelectedItem();
 
         if (selectedNote == null) {
@@ -228,7 +222,6 @@ public class MainController {
         @Override
         protected void updateItem(Note item, boolean empty) {
             super.updateItem(item, empty);
-
 
             if (empty || item == null) {
                 setText(null);

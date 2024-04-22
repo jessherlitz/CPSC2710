@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -15,7 +14,7 @@ public class NoteWindowController {
     private TextArea windowContent;
 
     public static void show(String title, String content) throws IOException {
-        Stage stage = new Stage(StageStyle.UTILITY);
+        Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(NotesApp.class.getResource("note-window.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
